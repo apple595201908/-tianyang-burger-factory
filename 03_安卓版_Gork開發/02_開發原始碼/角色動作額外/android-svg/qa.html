@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <title>Android HD Layout QA</title>
+    <style>
+      * { box-sizing: border-box; }
+      body { margin: 0; padding: 18px; color: #dff8ff; background: #02070b; font: 700 14px system-ui, sans-serif; }
+      main { display: flex; align-items: flex-start; gap: 20px; }
+      h2 { margin: 0 0 8px; font-size: 15px; }
+      .viewport { overflow: hidden; border: 2px solid #5ae3ff; border-radius: 10px; background: #071018; }
+      .landscape { width: 602px; height: 376px; }
+      .portrait { width: 376px; height: 602px; }
+      iframe { display: block; border: 0; transform: scale(.5); transform-origin: 0 0; }
+      .landscape iframe { width: 1203px; height: 752px; }
+      .portrait iframe { width: 752px; height: 1203px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section>
+        <h2>Xiaomi Pad Mini｜橫向 1203 × 752 CSS px</h2>
+        <div class="viewport landscape">
+          <iframe title="Pad Mini landscape" src="../android/app/src/main/assets/www/index.html?profile=xiaomi-pad-mini"></iframe>
+        </div>
+      </section>
+      <section>
+        <h2>Xiaomi Pad Mini｜直向 752 × 1203 CSS px</h2>
+        <div class="viewport portrait">
+          <iframe title="Pad Mini portrait" src="../android/app/src/main/assets/www/index.html?profile=xiaomi-pad-mini"></iframe>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

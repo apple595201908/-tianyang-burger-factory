@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#071018" />
+    <title>天陽的漢堡工廠 HD</title>
+    <link rel="icon" href="./icons/icon-192.png" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script defer src="./game.js"></script>
+  </head>
+  <body>
+    <main id="app" class="menu-mode" aria-label="天陽的漢堡工廠 HD 遊戲">
+      <div class="backdrop" aria-hidden="true"></div>
+
+      <svg
+        id="factory-stage"
+        class="game-surface"
+        xmlns="http://www.w3.org/2000/svg"
+        role="img"
+        aria-label="漢堡工廠生產線"
+        preserveAspectRatio="none"
+      >
+        <defs>
+          <linearGradient id="steel" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#9eb7c6" />
+            <stop offset="0.42" stop-color="#425565" />
+            <stop offset="1" stop-color="#182633" />
+          </linearGradient>
+          <linearGradient id="belt" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#2c3f4b" />
+            <stop offset="0.5" stop-color="#0d1821" />
+            <stop offset="1" stop-color="#263744" />
+          </linearGradient>
+          <linearGradient id="bunTop" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#ffe09a" />
+            <stop offset="0.5" stop-color="#f2a73c" />
+            <stop offset="1" stop-color="#bd5c19" />
+          </linearGradient>
+          <linearGradient id="bunBottom" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#f7bd55" />
+            <stop offset="1" stop-color="#b85316" />
+          </linearGradient>
+          <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#20384a" stop-opacity=".96" />
+            <stop offset="1" stop-color="#09141d" stop-opacity=".98" />
+          </linearGradient>
+          <pattern id="hazard" width="32" height="32" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+            <rect width="16" height="32" fill="#f4bd35" />
+            <rect x="16" width="16" height="32" fill="#17232c" />
+          </pattern>
+          <filter id="softShadow" x="-40%" y="-40%" width="180%" height="200%">
+            <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#000" flood-opacity=".48" />
+          </filter>
+          <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur stdDeviation="8" result="blur" />
+            <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+          </filter>
+        </defs>
+
+        <g id="factory-architecture" aria-hidden="true">
+          <rect id="wall-tint" x="0" y="0" width="1" height="1" fill="#06121c" fill-opacity=".18" />
+          <path id="top-pipe" fill="none" stroke="#7995a6" stroke-opacity=".38" stroke-width="12" />
+          <path id="top-pipe-highlight" fill="none" stroke="#d2e9f2" stroke-opacity=".2" stroke-width="3" />
+          <g id="status-lamps"></g>
+        </g>
+
+        <g id="station-guides" aria-hidden="true">
+          <g id="guide-base" class="station-guide"><circle r="11" /><path d="M0 14V58" /></g>
+          <g id="guide-fill" class="station-guide"><circle r="11" /><path d="M0 14V58" /></g>
+          <g id="guide-player" class="station-guide player-guide"><circle r="14" /><path d="M0 18V68" /></g>
+          <g id="guide-inspector" class="station-guide"><circle r="11" /><path d="M0 14V58" /></g>
+        </g>
+
+        <g id="workers" aria-hidden="true">
+          <g id="worker-base" class="worker worker-base">
+            <ellipse class="worker-glow" cx="0" cy="2" rx="54" ry="16" />
+            <g class="station-prop bun-crate" transform="translate(-62 18)">
+              <rect class="crate" x="-18" y="0" width="36" height="22" rx="4" />
+              <rect class="crate-lid" x="-16" y="-8" width="32" height="10" rx="3" />
+              <ellipse class="held-bottom-bun" cx="0" cy="-4" rx="12" ry="5" />
+            </g>
+            <g class="worker-figure" filter="url(#softShadow)">
+              <g class="worker-body">
+                <path class="body" d="M-38-42Q0-67 38-42L45 24Q0 45-45 24Z" />
+                <path class="apron" d="M-24-39H24L30 24Q0 35-30 24Z" />
+                <g class="arm-group arm-left">
+                  <path class="arm" d="M-36-28Q-60-5-40 12" />
+                  <circle class="hand" cx="-42" cy="14" r="8" />
+                </g>
+                <g class="arm-group arm-right">
+                  <path class="arm" d="M36-28Q60-5 40 12" />
+                  <circle class="hand" cx="42" cy="14" r="8" />
+                  <g class="held-prop held-base-bun">
+                    <rect class="held-bottom-bun" x="28" y="-8" width="28" height="12" rx="6" />
+                  </g>
+                </g>
+                <rect class="tool" x="-8" y="-18" width="16" height="25" rx="5" />
+              </g>
+              <g class="worker-head">
+                <circle class="head" cy="-83" r="31" />
+                <path class="hair" d="M-30-88Q-20-122 10-114Q35-106 29-78Q11-97-30-88Z" />
+                <path class="hat" d="M-36-105Q0-132 36-105L29-94H-29Z" />
+                <circle class="eye" cx="-10" cy="-83" r="3" /><circle class="eye" cx="10" cy="-83" r="3" />
+                <path class="smile" d="M-9-70Q0-64 9-70" />
+              </g>
+            </g>
+            <text class="worker-label" y="66">麵包站</text>
+          </g>
+          <g id="worker-fill" class="worker worker-fill">
+            <ellipse class="worker-glow" cx="0" cy="2" rx="54" ry="16" />
+            <g class="station-prop fill-tray" transform="translate(58 20)">
+              <rect class="tray" x="-20" y="0" width="40" height="16" rx="6" />
+              <path class="tray-bits" d="M-12 4Q-6-2 0 4Q6-2 12 4L10 10H-10Z" />
+            </g>
+            <g class="worker-figure" filter="url(#softShadow)">
+              <g class="worker-body">
+                <path class="body" d="M-38-42Q0-67 38-42L45 24Q0 45-45 24Z" />
+                <path class="apron" d="M-24-39H24L30 24Q0 35-30 24Z" />
+                <g class="arm-group arm-left">
+                  <path class="arm" d="M-36-28Q-60-5-40 12" />
+                  <circle class="hand" cx="-42" cy="14" r="8" />
+                </g>
+                <g class="arm-group arm-right">
+                  <path class="arm" d="M36-28Q60-5 40 12" />
+                  <circle class="hand" cx="42" cy="14" r="8" />
+                  <g class="held-prop held-scoop">
+                    <path class="scoop-bowl" d="M28-6H52L48 10H32Z" />
+                    <path class="scoop-lettuce" d="M32-8Q40-16 48-8L46 2H34Z" />
+                    <rect class="scoop-patty" x="32" y="-2" width="16" height="6" rx="2" />
+                    <path class="scoop-cheese" d="M32-4H48L44 2H34Z" />
+                  </g>
+                </g>
+                <path class="tool" d="M-9-18H9L15 6H-15Z" />
+              </g>
+              <g class="worker-head">
+                <circle class="head" cy="-83" r="31" />
+                <path class="hair" d="M-31-87Q-22-122 15-113Q35-101 29-77Q9-99-31-87Z" />
+                <path class="hat" d="M-36-105Q0-132 36-105L29-94H-29Z" />
+                <circle class="eye" cx="-10" cy="-83" r="3" /><circle class="eye" cx="10" cy="-83" r="3" />
+                <path class="smile" d="M-9-70Q0-64 9-70" />
+              </g>
+            </g>
+            <text class="worker-label" y="66">配料站</text>
+          </g>
+          <g id="worker-player" class="worker worker-player">
+            <ellipse class="worker-glow" cx="0" cy="2" rx="58" ry="17" />
+            <g class="push-streaks" transform="translate(-20 8)">
+              <path d="M-70-8 H-28" />
+              <path d="M-78 6 H-32" />
+              <path d="M-64 18 H-24" />
+            </g>
+            <g class="worker-figure" filter="url(#softShadow)">
+              <g class="worker-body">
+                <path class="body" d="M-41-44Q0-70 41-44L48 25Q0 47-48 25Z" />
+                <path class="apron" d="M-26-41H26L32 26Q0 38-32 26Z" />
+                <g class="arm-group arm-left">
+                  <path class="arm" d="M-39-29Q-68-4-43 14" />
+                  <circle class="hand" cx="-42" cy="14" r="8" />
+                </g>
+                <g class="arm-group arm-right">
+                  <path class="arm" d="M39-29Q68-4 43 14" />
+                  <circle class="hand" cx="42" cy="14" r="8" />
+                  <g class="held-prop held-top-bun">
+                    <path class="held-bun-shape" d="M24-8Q32-28 44-30Q56-28 64-8Q56-2 44-2Q32-2 24-8Z" />
+                    <ellipse cx="36" cy="-18" rx="3" ry="1.4" fill="#fff0bd" />
+                    <ellipse cx="46" cy="-24" rx="3" ry="1.4" fill="#fff0bd" />
+                    <ellipse cx="54" cy="-16" rx="3" ry="1.4" fill="#fff0bd" />
+                  </g>
+                </g>
+                <path class="badge" d="M-12-25H12V-3L0 8-12-3Z" />
+              </g>
+              <g class="worker-head">
+                <circle class="head" cy="-87" r="33" />
+                <path class="hair" d="M-32-92Q-19-130 18-117Q39-105 31-80Q11-102-32-92Z" />
+                <path class="hat" d="M-39-111Q0-140 39-111L31-98H-31Z" />
+                <circle class="eye" cx="-11" cy="-87" r="3" /><circle class="eye" cx="11" cy="-87" r="3" />
+                <path class="smile" d="M-10-73Q0-66 10-73" />
+                <circle class="blush blush-left" cx="-21" cy="-76" r="7" />
+                <circle class="blush blush-right" cx="21" cy="-76" r="7" />
+                <path class="embarrassed-mouth" d="M-11-69Q-5-76 0-70Q5-76 11-69" />
+                <path class="sweat-drop" d="M31-99Q42-86 31-80Q20-86 31-99Z" />
+              </g>
+            </g>
+            <text class="worker-label" y="72">你的工作站</text>
+          </g>
+          <g id="worker-inspector" class="worker worker-inspector">
+            <ellipse class="worker-glow" cx="0" cy="2" rx="54" ry="16" />
+            <g class="worker-figure" filter="url(#softShadow)">
+              <g class="worker-body">
+                <path class="body" d="M-38-42Q0-67 38-42L45 24Q0 45-45 24Z" />
+                <path class="apron" d="M-24-39H24L30 24Q0 35-30 24Z" />
+                <g class="arm-group arm-left">
+                  <path class="arm" d="M-36-28Q-60-5-40 12" />
+                  <circle class="hand" cx="-42" cy="14" r="8" />
+                </g>
+                <g class="arm-group arm-right">
+                  <path class="arm" d="M36-28Q60-5 40 12" />
+                  <circle class="hand" cx="42" cy="14" r="8" />
+                </g>
+                <rect class="clipboard" x="-15" y="-24" width="30" height="38" rx="4" />
+                <path class="check" d="M-8-5L-1 3 11-12" />
+              </g>
+              <g class="worker-head">
+                <circle class="head" cy="-83" r="31" />
+                <path class="hair" d="M-30-88Q-18-120 15-112Q35-101 29-77Q8-98-30-88Z" />
+                <path class="hat" d="M-36-105Q0-132 36-105L29-94H-29Z" />
+                <circle class="eye" cx="-10" cy="-83" r="3" /><circle class="eye" cx="10" cy="-83" r="3" />
+                <path class="smile" d="M-9-70Q0-64 9-70" />
+              </g>
+            </g>
+            <text class="worker-label" y="66">品管站</text>
+          </g>
+        </g>
+
+        <g id="conveyor" aria-hidden="true">
+          <rect id="belt-shadow" rx="30" fill="#000" fill-opacity=".48" />
+          <rect id="belt-frame" rx="24" fill="url(#steel)" stroke="#c6deea" stroke-opacity=".35" />
+          <rect id="belt-surface" rx="17" fill="url(#belt)" />
+          <line id="belt-ticks" class="belt-ticks" stroke="#81a0ae" stroke-opacity=".48" stroke-width="7" stroke-dasharray="24 18" />
+          <rect id="belt-hazard" fill="url(#hazard)" opacity=".84" />
+          <g id="rollers"></g>
+        </g>
+
+        <g id="foods" aria-label="產線上的漢堡"></g>
+        <g id="effects" aria-hidden="true"></g>
+      </svg>
+
+      <header id="hud" class="hud hidden" aria-live="polite">
+        <div class="score-card"><span>分數</span><strong id="score">0</strong></div>
+        <div class="speed-card"><span>產線</span><strong id="speed">1.0×</strong></div>
+        <button id="pause-button" class="icon-button" type="button" aria-label="暫停">Ⅱ</button>
+        <button id="mute-button" class="icon-button" type="button" aria-label="切換音效">♪</button>
+      </header>
+
+      <div id="touch-zones" class="touch-zones hidden" aria-hidden="true">
+        <div id="left-zone" class="touch-zone left-zone"><span class="zone-icon">✓</span><strong>內餡完整：按左封蓋</strong><small>FINISH</small></div>
+        <div id="right-zone" class="touch-zone right-zone"><span class="zone-icon">↩</span><strong>缺料：按右邊</strong><small>RETURN</small></div>
+      </div>
+
+      <div id="cue" class="cue hidden" role="status">
+        <span id="cue-step" class="cue-step">教學</span>
+        <strong id="cue-title">內餡完整，等待封蓋</strong>
+        <span id="cue-detail">看到沒有上層麵包的完整內餡，點左半邊封蓋</span>
+      </div>
+
+      <div id="countdown" class="countdown hidden" aria-live="assertive">3</div>
+      <div id="toast" class="toast hidden" role="status">漂亮！</div>
+
+      <section id="menu" class="overlay menu-overlay">
+        <div class="menu-brand">
+          <div class="logo-mark" aria-hidden="true"><span class="logo-bun top"></span><span class="logo-fill"></span><span class="logo-bun bottom"></span></div>
+          <p class="eyebrow">VECTOR HD EDITION</p>
+          <h1>天陽的<br />漢堡工廠</h1>
+          <p class="tagline">完整按左，缺料按右。<br />守住最忙碌的漢堡產線！</p>
+        </div>
+        <div class="menu-actions">
+          <div class="best-row"><span>最高紀錄</span><strong id="best-score">0</strong></div>
+          <button id="start-button" class="primary-button" type="button"><span>開始上工</span><small>START SHIFT</small></button>
+          <button id="tutorial-button" class="secondary-button" type="button">重新練習操作</button>
+          <p id="render-note" class="render-note"><span>◆</span> SVG＋HTML 向量高清渲染</p>
+        </div>
+      </section>
+
+      <section id="pause-overlay" class="overlay compact-overlay hidden">
+        <article class="dialog">
+          <p class="eyebrow">SHIFT PAUSED</p>
+          <h2>暫停中</h2>
+          <p>準備好再回到產線。</p>
+          <button id="resume-button" class="primary-button" type="button">繼續遊戲</button>
+          <button id="quit-button" class="secondary-button" type="button">返回主選單</button>
+        </article>
+      </section>
+
+      <section id="gameover-overlay" class="overlay compact-overlay hidden">
+        <article class="dialog gameover-dialog">
+          <p class="eyebrow danger">SHIFT ENDED</p>
+          <h2 id="failure-title">產線失誤</h2>
+          <p id="failure-detail">再快一點就成功了！</p>
+          <div class="result-grid">
+            <div><span>本次分數</span><strong id="final-score">0</strong></div>
+            <div><span>最高紀錄</span><strong id="final-best">0</strong></div>
+          </div>
+          <button id="retry-button" class="primary-button" type="button">立即重來</button>
+          <button id="gameover-menu-button" class="secondary-button" type="button">返回主選單</button>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

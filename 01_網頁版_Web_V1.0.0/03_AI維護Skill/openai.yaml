@@ -1,0 +1,4 @@
+interface:
+  display_name: "維護《天陽的漢堡工廠》"
+  short_description: "依照 V1 核心規則安全修改、測試與發布天陽的漢堡工廠專案"
+  default_prompt: "使用 $maintain-tianyang-burger-factory 安全修改並完整驗證《天陽的漢堡工廠》。"

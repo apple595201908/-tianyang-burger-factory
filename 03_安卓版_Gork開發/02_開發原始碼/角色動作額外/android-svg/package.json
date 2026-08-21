@@ -1,0 +1,16 @@
+{
+  "name": "tianyang-burger-factory-android-svg",
+  "version": "1.1.7-extra",
+  "description": "天陽的漢堡工廠 Android SVG/DOM HD 角色動作額外版本",
+  "main": "src/game.ts",
+  "scripts": {
+    "build": "tsc --target ES2017 --outFile ../www/game.js src/game.ts",
+    "dev": "tsc --target ES2017 --outFile ../www/game.js src/game.ts --watch"
+  },
+  "keywords": ["game", "svg", "tianyang", "burger-factory"],
+  "author": "Tianyang & Grok",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

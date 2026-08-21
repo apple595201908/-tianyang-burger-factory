@@ -1,0 +1,20 @@
+《天陽的漢堡工廠》正式發布資訊
+
+版本：1.0.0
+發布日期：2026-08-21
+公開遊玩網址：https://factory-rush-arcade.yoyo50582.chatgpt.site
+
+開放方式：
+- 任何人取得網址後皆可直接遊玩。
+- 不需要登入 ChatGPT 或其他帳號。
+- 支援手機與桌面瀏覽器。
+
+主要技術：
+- TypeScript
+- Phaser 3
+- React / Vinext
+- Vite
+- PWA / Service Worker
+- Web Audio API
+
+完整專案的安裝、測試與建置方式請參閱 README.md 與 docs/DEVELOPMENT.md。

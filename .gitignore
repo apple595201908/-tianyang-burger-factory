@@ -1,0 +1,62 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+jspm_packages/
+
+# Build and dist outputs
+dist/
+build/
+bin/
+obj/
+out/
+.parcel-cache/
+.next/
+.nuxt/
+
+# Android & Gradle
+.gradle/
+captures/
+local.properties
+.cxx/
+*.apk.idsig
+
+# Logs and databases
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS metadata & temporary files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# IDE and Editor files
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Temporary archives (keep dedicated project zips)
+*.tmp
+*.bak
+*.orig

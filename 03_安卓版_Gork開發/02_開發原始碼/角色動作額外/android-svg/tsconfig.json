@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "module": "None",
+    "lib": ["DOM", "ES2017"],
+    "strict": true,
+    "noImplicitAny": false,
+    "outFile": "../www/game.js",
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"]
+}
